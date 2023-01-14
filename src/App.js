@@ -6,6 +6,7 @@ function App() {
   const [tipAmount, setTipAmount] = useState(0);
   const [people, setPeople] = useState("");
   const [total, setTotal] = useState(0)
+  const [custom, setCustom] = useState("")
   const tips = [
     { value: 5, id: 1 },
     { value: 10, id: 2 },
@@ -24,22 +25,25 @@ function App() {
   };
   // HESAP
   const handleTip = (e) => {
-    const tipvalue = e.target.value;
-    setTipAmount((bill * tipvalue) / 100 / people);
-    setTotal((bill / people) + ((bill * tipvalue) / 100 / people))
+    setCustom(e.target.value)
+    setTipAmount(Number((bill * e.target.value) / 100 / people).toFixed(2));
+    setTotal(Number((bill / people) + ((bill * e.target.value) / 100 / people)).toFixed(2))
   };
+
+
   const handleClick = (e) => {
     e.preventDefault();
     const tip = e.target.value;
-    setTipAmount((bill * tip) / 100 / people);
-    setTotal((bill / people) + (bill * tip) / 100 / people)
+    setTipAmount(Number((bill * tip) / 100 / people).toFixed(2));
+    setTotal(Number((bill / people) + (bill * tip) / 100 / people).toFixed(2))
   };
   // İNPUT RESET
-  const resetClick = () => {
+  const resetClick = (a) => {
     setBill("")
     setTipAmount("")
     setPeople("")
     setTotal("")
+    setCustom("")
   }
 
   const mapped = tips.map((tip) => {
@@ -82,7 +86,9 @@ function App() {
                 disabled={
                   people === "" || bill === ""
                 }
-                type="number"
+                type="tel"
+                maxLength={2}
+                value={custom}
                 onChange={handleTip}
               />
             </div>
